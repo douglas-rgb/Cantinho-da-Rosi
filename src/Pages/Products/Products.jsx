@@ -13,7 +13,7 @@ function Products() {
           <p>Peças artesanais feitas com carinho para decorar seu lar.</p>
 
           <a
-            href="/Modelos/index.html"
+            href="Modelos/index.html"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.button}
@@ -27,7 +27,7 @@ function Products() {
           <p>Conjuntos elegantes que deixam seu banheiro mais bonito.</p>
 
           <a
-            href="/Modelos/index.html"
+            href="Modelos/index.html"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.button}
@@ -41,7 +41,7 @@ function Products() {
           <p>Peças delicadas para decorar e valorizar sua mesa.</p>
 
           <a
-            href="/Modelos/index.html"
+            href="Modelos/index.html"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.button}
