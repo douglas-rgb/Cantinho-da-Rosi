@@ -1,0 +1,53 @@
+
+
+
+.header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #baf5dc;
+    padding: 10px 20px;
+
+    z-index: 1000;
+}
+
+.header .imagem {
+    background-color: #224242;
+    padding: 10px 20px;
+    border-radius: 8px;
+
+    margin-right: 20px;
+
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+
+    transition: transform 0.3s ease;
+}
+
+.header .imagem:hover {
+    transform: scale(1.05);
+}
+
+.header .imagem a {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .header {
+        display: none;
+    }
+}
+
+
+
+
+
+
