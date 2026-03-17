@@ -6,11 +6,11 @@ function Header() {
     return (
         <header className={styles.header} >
 
-            <div>
-                <p>Email: rosilene-black@outlook.com</p>
+            <div className={styles.contato}>
+                <p className={styles.email}>Email: rosilene-black@outlook.com</p>
             </div>
-            <div>
-                <p>Telefone: (11) 91537-1799</p>
+            <div className={styles.contato}>
+                <p className={styles.phone}>Telefone: (11) 91537-1799</p>
             </div>
             <div className={styles.imagem}>
                 <a href="#contato">

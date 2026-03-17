@@ -2,6 +2,7 @@
   padding: 80px 10%;
   background: #f9f9fb;
   text-align: center;
+  border-bottom: 0.01rem solid #000000;
 }
 
 .localizacaoSection span {

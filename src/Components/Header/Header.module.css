@@ -11,10 +11,15 @@
     justify-content: space-between;
     align-items: center;
 
-    background-color: #baf5dc;
-    padding: 10px 20px;
+    background-color: #7c3aed;
+    padding: 10px 20px  10px 20px;
 
     z-index: 1000;
+}
+
+.contato .email{
+    color: #fff;
+    margin-left: 15px;
 }
 
 .header .imagem {
