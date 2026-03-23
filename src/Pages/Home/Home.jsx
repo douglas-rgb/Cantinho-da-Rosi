@@ -1,5 +1,5 @@
-
 import styles from "./Home.module.css";
+
 
 function Home() {
   return (
@@ -13,14 +13,14 @@ function Home() {
           trazendo aconchego e elegância para seu lar.
         </p>
 
-        <a 
-          href="Modelos/index.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.button}
-        >
-          Ver Produtos
-        </a>
+<a 
+  href={`${import.meta.env.BASE_URL}Modelos/index.html`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className={styles.button}
+>
+  Ver Produtos
+</a>
 
       </div>
 
