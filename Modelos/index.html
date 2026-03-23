@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Modelos de Crochê</title>
+
 <link rel="stylesheet" href="styles.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,133 +18,84 @@
 
 <header class="header">
 
-<div class="logo">
-<h1>Modelos</h1>
-</div>
+  <div class="logo">
+    <h1>Modelos</h1>
+  </div>
 
-<nav>
-<ul class="nav-list">
+  <div class="menu-toggle" id="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-<li>
-<a href="/">Home</a>
-</li>
-
-<li>
-<a href="#produtos">Produtos</a>
-</li>
-
-<li>
-<a href="#contato">Contato</a>
-</li>
-
-</ul>
-</nav>
+  <nav id="nav">
+    <ul class="nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
 
 </header>
 
-
 <section id="produtos" class="produtos">
+  <h1>Nossos Produtos</h1>
 
-<h1>Nossos Produtos</h1>
+  <div class="grid-produtos">
 
-<div class="grid-produtos">
+    <div class="card">
+      <img src="img/Trilho de mesa.webp">
+      <h3>Centro de Mesa</h3>
+      <p class="preco">R$ 80,00</p>
+      <button class="btn-comprar" data-produto="Centro de Mesa" data-preco="80">
+        Comprar
+      </button>
+    </div>
 
-<div class="card">
-<img src="img/Trilho de mesa.webp">
-<h3>Centro de Mesa</h3>
-</div>
+    <div class="card">
+      <img src="img/tapetes para banheiro.webp">
+      <h3>Tapete para Banheiro</h3>
+      <p class="preco">R$ 120,00</p>
+      <button class="btn-comprar" data-produto="Tapete para Banheiro" data-preco="120">
+        Comprar
+      </button>
+    </div>
 
-<div class="card">
-<img src="img/tapetes para banheiro.webp">
-<h3>Tapete para Banheiro</h3>
-</div>
+    <div class="card">
+      <img src="img/Slider4.webp">
+      <h3>Tapete Decorativo</h3>
+      <p class="preco">R$ 100,00</p>
+      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
+        Comprar
+      </button>
+    </div>
 
-<div class="card">
-<img src="img/Slider4.webp">
-<h3>Tapete Decorativo</h3>
-</div>
-<div class="card">
-<img src="img/Trilho de mesa.webp">
-<h3>Centro de Mesa</h3>
-</div>
-
-<div class="card">
-<img src="img/tapetes para banheiro.webp">
-<h3>Tapete para Banheiro</h3>
-</div>
-
-<div class="card">
-<img src="img/Slider4.webp">
-<h3>Tapete Decorativo</h3>
-</div>
-
-<div class="card">
-<img src="img/Trilho de mesa1.webp">
-<h3>Conjunto de Mesa</h3>
-</div>
-
-<div class="card">
-<img src="img/Trilho de mesa.webp">
-<h3>Trilho de Mesa</h3>
-</div>
-
-<div class="card">
-<img src="img/Centro de mesa com souplat.png">
-<h3>Tapete Redondo</h3>
-</div>
-<div class="card">
-<img src="img/Trilho de mesa1.webp">
-<h3>Conjunto de Mesa</h3>
-</div>
-
-<div class="card">
-<img src="img/Trilho de mesa.webp">
-<h3>Trilho de Mesa</h3>
-</div>
-
-<div class="card">
-<img src="img/Centro de mesa com souplat.png">
-<h3>Tapete Redondo</h3>
-</div>
-
-</div>
-
+  </div>
 </section>
-
 
 <section class="contato-section" id="contato">
+  <h2>Entre em Contato</h2>
+  <p>Solicite um orçamento rápido via WhatsApp</p>
 
-<h2>Entre em Contato</h2>
-
-<p>Solicite um orçamento rápido via WhatsApp</p>
-
-<form id="form-contato">
-
-<input type="text" id="nome" placeholder="Seu nome" required>
-
-<input type="text" id="servico" placeholder="Produto desejado" required>
-
-<textarea id="mensagem" placeholder="Descreva o que você precisa" required></textarea>
-
-<button type="submit">Enviar</button>
-
-</form>
-
+  <form id="form-contato">
+    <input type="text" id="nome" placeholder="Seu nome" required>
+    <input type="text" id="servico" placeholder="Produto desejado" required>
+    <textarea id="mensagem" placeholder="Descreva o que você precisa" required></textarea>
+    <button type="submit">Enviar</button>
+  </form>
 </section>
 
-
 <footer class="footer">
-
-<p>© 2026 Crochê Artesanal - Todos os direitos reservados</p>
-
+  <p>© 2026 Crochê Artesanal - Todos os direitos reservados</p>
 </footer>
-
 
 <a href="https://wa.me/5511915371799" class="whatsapp" target="_blank">
 💬
 </a>
 
-<script src="scripts.js"></script>
+
 
 </body>
+<script src="scripts.js">
+</script>
 </html>

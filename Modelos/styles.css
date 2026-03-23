@@ -1,242 +1,220 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-body{
-background:#f9f9f9;
+body {
+  background: #0f0f1a;
+  color: #fff;
 }
 
-/* HEADER */
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:20px 10%;
-
-background:white;
-
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
-
-position:sticky;
-top:0;
-z-index:1000;
+/* ================= HEADER ================= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #1a1a2e;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.nav-list{
-display:flex;
-list-style:none;
-gap:30px;
+.logo h1 {
+  color: #a855f7;
 }
 
-.nav-list a{
-text-decoration:none;
-color:#333;
-font-weight:500;
+/* ================= NAV ================= */
+.nav-list {
+  display: flex;
+  list-style: none;
+  gap: 30px;
 }
 
-.nav-list a:hover{
-color:#7c3aed;
+.nav-list a {
+  text-decoration: none;
+  color: #fff;
+  transition: 0.3s;
 }
 
-
-/* PRODUTOS */
-
-.produtos{
-padding:80px 10%;
-text-align:center;
+.nav-list a:hover {
+  color: #a855f7;
 }
 
-.produtos h1{
-font-size:2.5rem;
-margin-bottom:50px;
-color:#7c3aed;
+/* ================= HAMBURGUER ================= */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 1001;
 }
 
-.grid-produtos{
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-
-gap:30px;
+.menu-toggle span {
+  height: 3px;
+  width: 25px;
+  background: #fff;
+  margin: 4px 0;
+  transition: 0.3s;
 }
 
-.card{
-
-background:white;
-
-border-radius:12px;
-
-overflow:hidden;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-
-transition:0.3s;
-
-cursor:pointer;
+/* ================= PRODUTOS ================= */
+.produtos {
+  padding: 60px 40px;
+  text-align: center;
 }
 
-.card:hover{
-
-transform:translateY(-10px);
-
-box-shadow:0 15px 35px rgba(0,0,0,0.15);
-
+.produtos h1 {
+  margin-bottom: 40px;
 }
 
-.card img{
-
-width:100%;
-height:220px;
-
-object-fit:cover;
+.grid-produtos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
 }
 
-.card h3{
-
-padding:15px;
-
-font-size:1.2rem;
-
+/* ================= CARD ================= */
+.card {
+  background: #1a1a2e;
+  padding: 20px;
+  border-radius: 12px;
+  transition: 0.3s;
 }
 
-
-/* CONTATO */
-
-.contato-section{
-
-padding:80px 10%;
-
-text-align:center;
-
-background:#fff;
-
+.card:hover {
+  transform: translateY(-5px);
 }
 
-.contato-section h2{
-font-size:2rem;
-margin-bottom:10px;
-color:#7c3aed;
+.card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
-form{
-
-max-width:500px;
-
-margin:auto;
-
-display:flex;
-
-flex-direction:column;
-
-gap:15px;
-
-margin-top:30px;
+.card h3 {
+  margin: 15px 0;
 }
 
-input,textarea{
-
-padding:12px;
-
-border-radius:8px;
-
-border:1px solid #ddd;
-
+.preco {
+  color: #a855f7;
+  font-weight: bold;
 }
 
-textarea{
-
-height:120px;
-
-resize:none;
+/* ================= BOTÃO ================= */
+.btn-comprar {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  background: linear-gradient(45deg, #a855f7, #9333ea);
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-button{
-
-padding:12px;
-
-background:#7c3aed;
-
-color:white;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
+.btn-comprar:hover {
+  transform: scale(1.05);
 }
 
-button:hover{
-
-background:#5b21b6;
-
+/* ================= CONTATO ================= */
+.contato-section {
+  padding: 60px 20px;
+  text-align: center;
 }
 
-
-/* FOOTER */
-
-.footer{
-
-text-align:center;
-
-padding:25px;
-
-background:#111;
-
-color:white;
-
+#form-contato {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: auto;
 }
 
-
-/* WHATSAPP */
-
-.whatsapp{
-
-position:fixed;
-
-bottom:20px;
-
-right:20px;
-
-background:#25d366;
-
-color:white;
-
-font-size:28px;
-
-width:60px;
-
-height:60px;
-
-border-radius:50%;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-text-decoration:none;
-
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-
+#form-contato input,
+#form-contato textarea {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
 }
 
+#form-contato button {
+  padding: 12px;
+  border: none;
+  background: #a855f7;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-/* Responsivo  */
-@media (max-width: 900px) {
+/* ================= FOOTER ================= */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #1a1a2e;
+}
+
+/* ================= WHATSAPP ================= */
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25d366;
+  color: #fff;
+  font-size: 24px;
+  padding: 15px;
+  border-radius: 50%;
+  text-decoration: none;
+  z-index: 1000;
+}
+
+/* ================= RESPONSIVO ================= */
+
+/* TABLET */
+@media (max-width: 1024px) {
   .grid-produtos {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 600px) {
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* MENU LATERAL */
+  nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    background: #1a1a2e;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+
+  nav.active {
+    transform: translateX(0);
+  }
+
+  .nav-list {
+    flex-direction: column;
+    padding: 80px 20px;
+    gap: 20px;
+  }
+
+  /* PRODUTOS */
   .grid-produtos {
     grid-template-columns: 1fr;
+  }
+
+  .header {
+    padding: 20px;
   }
 }
