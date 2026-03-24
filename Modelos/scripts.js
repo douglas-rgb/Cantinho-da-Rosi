@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("🛒 Produto:", produto);
 
       try {
-        const response = await fetch("http://localhost:3000/api/pagamento", {
+        const response = await fetch("https://backend-croche.onrender.com/api/pagamento", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
