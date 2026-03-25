@@ -23,7 +23,7 @@ export const criarPagamento = async (req, res) => {
 
     res.json(response.body);
   } catch (error) {
-    console.error("Erro no pagamento:", error.message);
+    console.error("Erro completo:", error);
     res.status(500).json({ error: "Erro ao gerar pagamento" });
   }
 };
