@@ -10,7 +10,7 @@ export const criarPagamento = async (req, res) => {
         description: produto,
         payment_method_id: "pix",
         payer: {
-          email: email,
+          email: "test_user_123@testuser.com",
         },
       },
     });
