@@ -1,12 +1,10 @@
 
-import mercadopago from "mercadopago";
-import dotenv from "dotenv";
+import { MercadoPagoConfig, Payment } from "mercadopago";
 
-dotenv.config();
-
-mercadopago.configure({
- 
-  access_token: process.env.MP_ACCESS_TOKEN,
+const client = new MercadoPagoConfig({
+  accessToken: process.env.MP_ACCESS_TOKEN,
 });
 
-export default mercadopago;
+const payment = new Payment(client);
+
+export default payment;
