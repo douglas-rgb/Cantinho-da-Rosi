@@ -1,5 +1,5 @@
 import express from "express";
-import { criarPagamento, receberWebhook, listarPagamentos } from "../controllers/paymentControllers.js";
+import { criarPagamento, receberWebhook, listarPagamentos } from "../controllers/paymentControllers.js"
 import payment from "../config/mp.js"; // Certifique-se que este é o export default de 'new Payment(client)'
 
 const router = express.Router();

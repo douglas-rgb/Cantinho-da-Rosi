@@ -1,5 +1,5 @@
 import payment from "../config/mp.js";
-import Pagamento from "../models/pagamento.js";
+
 
 // Criar pagamento Pix
 export const criarPagamento = async (req, res) => {
