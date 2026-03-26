@@ -1,8 +1,10 @@
-import { MercadoPagoConfig, Payment } from "mercadopago";
+import { MercadoPagoConfig, Payment } from 'mercadopago';
 
-
-const client = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN,
+// No Node.js puro, usa-se process.env
+const client = new MercadoPagoConfig({ 
+  accessToken: process.env.MP_ACCESS_TOKEN 
 });
+
 const payment = new Payment(client);
+
 export default payment;
