@@ -1,35 +1,26 @@
-import Footer from "./Components/Footer/Footer"
-import Header from "./Components/Header/Header"
-import Navbar from "./Components/Navbar/Navbar"
-import OrderSteps from "./Components/OrderSteps/OrderSteps"
-import About from "./Pages/About/About"
-import Contato from "./Pages/Contato/Contato"
-import Home from "./Pages/Home/Home"
-import Products from "./Pages/Products/Products"
-import WhatsappButton from "./Components/WhatsappButton/WhatsappButton"
-import Location from "./Components/Location/Location"
-
-
-
-
+import PixPage from "./Pages/PixPage/PixPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-
   return (
-    <>
+    <Router>
       <Header />
-     <Navbar />
-     <Home />
-     <About />
-     <Products />
-     <Contato />
-     <Location />
-     <OrderSteps />
-     <Footer />
+      <Navbar />
 
-     <WhatsappButton />
-    </>
-  )
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/contato" element={<Contato />} />
+        <Route path="/pix" element={<PixPage />} /> {/* Nova rota Pix */}
+      </Routes>
+
+      <Location />
+      <OrderSteps />
+      <Footer />
+      <WhatsappButton />
+    </Router>
+  );
 }
 
-export default App
+export default App;
