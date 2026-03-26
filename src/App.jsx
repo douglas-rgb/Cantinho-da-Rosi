@@ -1,4 +1,4 @@
-import PixPage from "./Pages/PixPage/PixPage";
+import PixPage from "./PixPages/PixPage/PixPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
