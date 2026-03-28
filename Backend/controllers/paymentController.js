@@ -82,8 +82,9 @@
 //     res.status(500).json({ error: "Erro ao buscar pagamentos" });
 //   }
 // };
+
 import payment from "../config/mp.js";
-import Pagamento from "../models/Pagamento.js"; // IMPORTANTE: Importar o modelo
+import Pagamento from "../models/Pagamento.js";
 
 export const criarPagamento = async (req, res) => {
   try {
@@ -95,7 +96,7 @@ export const criarPagamento = async (req, res) => {
         description: produto,
         payment_method_id: "pix",
         payer: {
-          email: email,
+          email,
           first_name: nome,
           last_name: sobrenome,
           identification: { type: "CPF", number: cpf },
@@ -103,9 +104,9 @@ export const criarPagamento = async (req, res) => {
       },
     });
 
-    // Opcional: Salvar como 'pending' logo na criação
+    // Salvando no banco com o nome correto: idPagamentoMP
     await Pagamento.create({
-      idPagamentoMP: String(response.id), // Use o nome idPagamentoMP aqui
+      idPagamentoMP: String(response.id),
       valor: Number(valor),
       status: "pending",
       emailPagador: email,
@@ -114,24 +115,26 @@ export const criarPagamento = async (req, res) => {
 
     res.json(response);
   } catch (error) {
+    console.error("Erro ao criar:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
 
 export const receberWebhook = async (req, res) => {
   try {
-    const { action, data } = req.body;
+    // 1. Pegamos o ID que vem na notificação (pode vir de jeitos diferentes)
+    const paymentId = req.body.data?.id || req.body.id;
 
-    if (action === "payment.created" || action === "payment.updated") {
-      const paymentId = data.id;
-      const paymentInfo = await payment.get({ id: paymentId });
+    if (paymentId) {
+      // 2. Buscamos os detalhes REAIS no Mercado Pago
+      const paymentInfo = await payment.get({ id: String(paymentId) });
 
-      // Capturando os dados do pagante que o Mercado Pago retorna
       const payer = paymentInfo.payer || {};
-      const nomeCompleto =
-        `${payer.first_name || ""} ${payer.last_name || ""}`.trim();
+      const nomeCompleto = `${payer.first_name || ""} ${payer.last_name || ""}`.trim();
 
-      const filter = { txid: String(paymentInfo.id) };
+      // 3. O FILTRO: Tem que ser idPagamentoMP para bater com o que criamos antes!
+      const filter = { idPagamentoMP: String(paymentId) };
+      
       const update = {
         status: paymentInfo.status,
         nomePagador: nomeCompleto || "Nome não disponível",
@@ -140,17 +143,20 @@ export const receberWebhook = async (req, res) => {
         updatedAt: new Date(),
       };
 
-      // Atualiza o banco de dados
-      await Pagamento.findOneAndUpdate(filter, update, { upsert: true });
-      console.log(
-        `Pagamento ${paymentId} atualizado para: ${paymentInfo.status}`,
-      );
+      // 4. Atualiza o registro existente
+      const resultado = await Pagamento.findOneAndUpdate(filter, update, { 
+        new: true, 
+        upsert: true 
+      });
+
+      console.log(`✅ Pagamento ${paymentId} atualizado para: ${resultado.status}`);
     }
 
     res.status(200).send("OK");
   } catch (err) {
     console.error("Erro no Webhook:", err.message);
-    res.status(500).send("Erro interno");
+    // Respondemos 200 mesmo no erro para o MP não ficar tentando reenviar infinitamente
+    res.status(200).send("OK"); 
   }
 };
 
