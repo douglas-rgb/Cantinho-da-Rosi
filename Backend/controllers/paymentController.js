@@ -1,7 +1,6 @@
 // import payment from "../config/mp.js";
 // import Pagamento from "../models/Pagamento.js";
 
-
 // // Criar pagamento Pix
 // export const criarPagamento = async (req, res) => {
 //   try {
@@ -44,8 +43,8 @@
 //       const paymentInfo = await payment.get({ id: paymentId });
 
 //       const payer = paymentInfo.payer || {};
-//       const nomePagador = payer.first_name 
-//         ? `${payer.first_name} ${payer.last_name || ''}`.trim() 
+//       const nomePagador = payer.first_name
+//         ? `${payer.first_name} ${payer.last_name || ''}`.trim()
 //         : "Não informado";
 
 //       // 3. Atualiza se já existir (pelo txid) ou cria um novo (Upsert)
@@ -106,11 +105,11 @@ export const criarPagamento = async (req, res) => {
 
     // Opcional: Salvar como 'pending' logo na criação
     await Pagamento.create({
-      txid: String(response.id),
+      idPagamentoMP: String(response.id), // Use o nome idPagamentoMP aqui
       valor: Number(valor),
       status: "pending",
       emailPagador: email,
-      produto: produto
+      produto: produto,
     });
 
     res.json(response);
@@ -129,7 +128,8 @@ export const receberWebhook = async (req, res) => {
 
       // Capturando os dados do pagante que o Mercado Pago retorna
       const payer = paymentInfo.payer || {};
-      const nomeCompleto = `${payer.first_name || ''} ${payer.last_name || ''}`.trim();
+      const nomeCompleto =
+        `${payer.first_name || ""} ${payer.last_name || ""}`.trim();
 
       const filter = { txid: String(paymentInfo.id) };
       const update = {
@@ -137,12 +137,14 @@ export const receberWebhook = async (req, res) => {
         nomePagador: nomeCompleto || "Nome não disponível",
         emailPagador: payer.email,
         valor: paymentInfo.transaction_amount,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       // Atualiza o banco de dados
       await Pagamento.findOneAndUpdate(filter, update, { upsert: true });
-      console.log(`Pagamento ${paymentId} atualizado para: ${paymentInfo.status}`);
+      console.log(
+        `Pagamento ${paymentId} atualizado para: ${paymentInfo.status}`,
+      );
     }
 
     res.status(200).send("OK");

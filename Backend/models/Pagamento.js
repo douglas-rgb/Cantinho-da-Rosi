@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 
 const PagamentoSchema = new mongoose.Schema({
-  idPagamentoMP: { type: String, required: true, unique: true }, // ID que o Mercado Pago gera
+  // Mudei para 'idPagamentoMP' para bater com o que seu banco está pedindo
+  idPagamentoMP: { type: String, required: true, unique: true }, 
   valor: Number,
-  status: String,
-  emailPagador: String,
+  status: { type: String, default: 'pending' },
   nomePagador: String,
-  cpfPagador: String,
-  descricao: String,
-  dataPagamento: Date,
+  emailPagador: String,
+  produto: String,
+  updatedAt: { type: Date, default: Date.now }
 }, { timestamps: true });
 
 export default mongoose.model('Pagamento', PagamentoSchema);
