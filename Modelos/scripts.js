@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   document.querySelectorAll(".btn-comprar").forEach((botao) => {
     botao.addEventListener("click", async () => {
+
       const produto = botao.getAttribute("data-produto");
       const preco = Number(botao.getAttribute("data-preco"));
 
@@ -16,25 +18,22 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("🛒 Iniciando pagamento para:", produto);
 
       try {
-        const response = await fetch(
-          "https://backend-croche.onrender.com/api/pagamento",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              valor: preco,
-              produto: produto,
-              email: "cliente@email.com", // Você pode pedir o e-mail no prompt também
-              nome: nomeCliente,
-              cpf: cpfCliente.replace(/\D/g, ""), // Remove pontos e traços
-            }),
+        const response = await fetch("https://backend-croche.onrender.com/api/pagamento", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({
+            valor: preco,
+            produto: produto,
+            email: "cliente@email.com", // Você pode pedir o e-mail no prompt também
+            nome: nomeCliente,
+            cpf: cpfCliente.replace(/\D/g, "") // Remove pontos e traços
+          }),
+        });
 
         const data = await response.json();
-
+        
         if (response.ok && data.point_of_interaction) {
           console.log("✅ Sucesso:", data);
           mostrarPix(data);
@@ -42,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("❌ Erro do Servidor:", data);
           alert(data.error || "Erro ao processar pagamento");
         }
+
       } catch (error) {
         console.error("Erro na requisição:", error);
         alert("Erro de conexão com o servidor");
