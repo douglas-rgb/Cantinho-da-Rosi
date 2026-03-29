@@ -1,33 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modelos de Crochê</title>
-
-<link rel="stylesheet" href="styles.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cantinho da Rosi - Crochê Sob Encomenda</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <header class="header">
-
   <div class="logo">
-    <h1>Modelos</h1>
+    <h1>Cantinho da Rosi</h1>
   </div>
-
   <div class="menu-toggle" id="menu-toggle">
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span><span></span><span></span>
   </div>
-
   <nav id="nav">
     <ul class="nav-list">
       <li><a href="/">Home</a></li>
@@ -35,195 +26,72 @@
       <li><a href="#contato">Contato</a></li>
     </ul>
   </nav>
-
 </header>
 
 <section id="produtos" class="produtos">
-  <h1>Nossos Produtos</h1>
+  <h1>Nossos Modelos</h1>
+  <p style="text-align:center; margin-bottom: 30px;">Clique no modelo desejado para solicitar um orçamento via WhatsApp</p>
 
   <div class="grid-produtos">
-
+    <!-- Card 1 -->
     <div class="card">
-      <img src="img/Trilho de mesa.webp">
+      <img src="img/Trilho de mesa.webp" alt="Centro de Mesa">
       <h3>Centro de Mesa</h3>
-      <p class="preco">R$ 1,00</p>
-      <button class="btn-comprar" data-produto="Centro de Mesa" data-preco="1">
-        Comprar
-      </button>
+      <button class="btn-encomendar" data-produto="Centro de Mesa">Encomendar via WhatsApp</button>
     </div>
 
+    <!-- Card 2 -->
     <div class="card">
-      <img src="img/tapetes para banheiro.webp">
+      <img src="img/tapetes para banheiro.webp" alt="Tapete para Banheiro">
       <h3>Tapete para Banheiro</h3>
-      <p class="preco">R$ 120,00</p>
-      <button class="btn-comprar" data-produto="Tapete para Banheiro" data-preco="120">
-        Comprar
-      </button>
+      <button class="btn-encomendar" data-produto="Tapete para Banheiro">Encomendar via WhatsApp</button>
     </div>
 
+    <!-- Card 3 -->
     <div class="card">
-      <img src="img/Slider4.webp">
+      <img src="img/Slider4.webp" alt="Tapete Decorativo">
       <h3>Tapete Decorativo</h3>
-      <p class="preco">R$ 100,00</p>
-      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
-        Comprar
-      </button>
+      <button class="btn-encomendar" data-produto="Tapete Decorativo">Encomendar via WhatsApp</button>
     </div>
+
+    <!-- Card 4 -->
     <div class="card">
-      <img src="img/Souplat.webp">
+      <img src="img/Souplat.webp" alt="Souplat">
       <h3>Souplat</h3>
-      <p class="preco">R$ 80,00</p>
-      <button class="btn-comprar" data-produto="Souplat" data-preco="80">
-        Comprar
-      </button>
+      <button class="btn-encomendar" data-produto="Souplat">Encomendar via WhatsApp</button>
     </div>
 
+    <!-- Card 5 (Trilho de mesa 1) -->
     <div class="card">
-      <img src="img/tapetes para banheiro.webp">
-      <h3>Tapete para Banheiro</h3>
-      <p class="preco">R$ 120,00</p>
-      <button class="btn-comprar" data-produto="Tapete para Banheiro" data-preco="120">
-        Comprar
-      </button>
+      <img src="img/Trilho de mesa1.webp" alt="Trilho de Mesa Luxo">
+      <h3>Trilho de Mesa Luxo</h3>
+      <button class="btn-encomendar" data-produto="Trilho de Mesa Luxo">Encomendar via WhatsApp</button>
     </div>
 
-    <div class="card">
-      <img src="img/Slider4.webp">
-      <h3>Tapete Decorativo</h3>
-      <p class="preco">R$ 100,00</p>
-      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
-        Comprar
-      </button>
-    </div>
-    <div class="card">
-      <img src="img/Trilho de mesa1.webp">
-      <h3>Tapete Decorativo</h3>
-      <p class="preco">R$ 100,00</p>
-      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
-        Comprar
-      </button>
-    </div>
-    <div class="card">
-      <img src="img/Souplat.webp">
-      <h3>Souplat</h3>
-      <p class="preco">R$ 80,00</p>
-      <button class="btn-comprar" data-produto="Souplat" data-preco="80">
-        Comprar
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="img/tapetes para banheiro.webp">
-      <h3>Tapete para Banheiro</h3>
-      <p class="preco">R$ 120,00</p>
-      <button class="btn-comprar" data-produto="Tapete para Banheiro" data-preco="120">
-        Comprar
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="img/Slider4.webp">
-      <h3>Tapete Decorativo</h3>
-      <p class="preco">R$ 100,00</p>
-      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
-        Comprar
-      </button>
-    </div>
-    <div class="card">
-      <img src="img/Slider4.webp">
-      <h3>Tapete Decorativo</h3>
-      <p class="preco">R$ 100,00</p>
-      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
-        Comprar
-      </button>
-    </div>
-    <div class="card">
-      <img src="img/Souplat.webp">
-      <h3>Souplat</h3>
-      <p class="preco">R$ 80,00</p>
-      <button class="btn-comprar" data-produto="Souplat" data-preco="80">
-        Comprar
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="img/tapetes para banheiro.webp">
-      <h3>Tapete para Banheiro</h3>
-      <p class="preco">R$ 120,00</p>
-      <button class="btn-comprar" data-produto="Tapete para Banheiro" data-preco="120">
-        Comprar
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="img/Slider4.webp">
-      <h3>Tapete Decorativo</h3>
-      <p class="preco">R$ 100,00</p>
-      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
-        Comprar
-      </button>
-    </div>
-    <div class="card">
-      <img src="img/Slider4.webp">
-      <h3>Tapete Decorativo</h3>
-      <p class="preco">R$ 100,00</p>
-      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
-        Comprar
-      </button>
-    </div>
-    <div class="card">
-      <img src="img/Souplat.webp">
-      <h3>Souplat</h3>
-      <p class="preco">R$ 80,00</p>
-      <button class="btn-comprar" data-produto="Souplat" data-preco="80">
-        Comprar
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="img/tapetes para banheiro.webp">
-      <h3>Tapete para Banheiro</h3>
-      <p class="preco">R$ 120,00</p>
-      <button class="btn-comprar" data-produto="Tapete para Banheiro" data-preco="120">
-        Comprar
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="img/Slider4.webp">
-      <h3>Tapete Decorativo</h3>
-      <p class="preco">R$ 100,00</p>
-      <button class="btn-comprar" data-produto="Tapete Decorativo" data-preco="100">
-        Comprar
-      </button>
-    </div>
+    <!-- Adicione mais cards conforme necessário seguindo o padrão acima -->
 
   </div>
 </section>
 
 <section class="contato-section" id="contato">
   <h2>Entre em Contato</h2>
-  <p>Solicite um orçamento rápido via WhatsApp</p>
-
+  <p>Dúvidas ou encomendas personalizadas?</p>
   <form id="form-contato">
-    <input type="text" id="nome" placeholder="Seu nome" required>
-    <input type="text" id="servico" placeholder="Produto desejado" required>
-    <textarea id="mensagem" placeholder="Descreva o que você precisa" required></textarea>
-    <button type="submit">Enviar</button>
+    <input type="text" id="nome-contato" placeholder="Seu nome" required>
+    <input type="text" id="servico-contato" placeholder="Produto de interesse" required>
+    <textarea id="mensagem-contato" placeholder="Olá Rosi, gostaria de saber mais sobre..." required></textarea>
+    <button type="submit">Enviar Mensagem</button>
   </form>
 </section>
 
 <footer class="footer">
-  <p>© 2026 Cantinho da Rosi - Todos os direitos reservados</p>
+  <p>© 2026 Cantinho da Rosi - Feito à mão com amor</p>
 </footer>
 
-<a href="https://wa.me/5511915371799" class="whatsapp" target="_blank">
-💬
+<a href="https://wa.me/5511915371799" class="whatsapp-float" target="_blank">
+  <img src="https://upload.wikimedia.org" alt="WhatsApp" width="35">
 </a>
 
-
-
+<script src="scripts.js"></script>
 </body>
-<script src="scripts.js">
-</script>
 </html>
