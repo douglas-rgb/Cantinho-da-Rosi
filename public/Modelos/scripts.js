@@ -1,15 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     const NUMERO_WHATSAPP = "5511915371799";
-    const URL_BACKEND = "https://backend-croche.onrender.com";
+    // IMPORTANTE: Deixe a URL assim, sem a barra no final
+    const URL_BASE = "https://backend-croche.onrender.com";
 
-    // 1. WHATSAPP: Lógica dos Botões de Encomenda nos Cards
+    // 1. WHATSAPP: Botões de Encomenda
     document.querySelectorAll(".btn-encomendar").forEach((botao) => {
         botao.addEventListener("click", () => {
             const produto = botao.getAttribute("data-produto");
-            const texto = encodeURIComponent(
-                `Olá Rosi! Vi o modelo *${produto}* no seu site e gostaria de pedir um orçamento.`
-            );
-            window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${texto}`, "_blank");
+            const texto = encodeURIComponent(`Olá Rosi! Vi o modelo *${produto}* no seu site e gostaria de pedir um orçamento.`);
+            window.open(`https://wa.me{NUMERO_WHATSAPP}?text=${texto}`, "_blank");
         });
     });
 
@@ -30,10 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const nome = document.getElementById("nome-contato").value;
             const produto = document.getElementById("servico-contato").value;
             const mensagem = document.getElementById("mensagem-contato").value;
-            const textoFinal = encodeURIComponent(
-                `Olá Rosi, meu nome é ${nome}. Estou interessado(a) em: *${produto}*.\n\n${mensagem}`
-            );
-            window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${textoFinal}`, "_blank");
+            const textoFinal = encodeURIComponent(`Olá Rosi, meu nome é ${nome}. Estou interessado(a) em: *${produto}*.\n\n${mensagem}`);
+            window.open(`https://wa.me{NUMERO_WHATSAPP}?text=${textoFinal}`, "_blank");
         });
     }
 
@@ -53,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.id = "modal-pagamento-pix";
         modal.innerHTML = `
             <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; justify-content:center; align-items:center; z-index:10000; padding:20px;">
-                <div style="background:#1a1a2e; padding:30px; border-radius:20px; border:1px solid #a855f7; text-align:center; max-width:400px; width:100%; color:#fff;">
+                <div style="background:#1a1a2e; padding:30px; border-radius:20px; border:1px solid #a855f7; text-align:center; max-width:400px; width:100%; color:#fff; font-family: sans-serif;">
                     <h3 style="color:#a855f7; margin-bottom:15px;">Pagar Encomenda</h3>
                     
                     <label style="display:block; text-align:left; font-size:12px; color:#94a3b8;">Valor combinado (R$):</label>
@@ -84,22 +81,34 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.disabled = true;
 
             try {
-                const res = await fetch(URL_BACKEND, {
+                // AQUI ESTÁ A CORREÇÃO: URL COMPLETA COM /api/pagamento
+                const res = await fetch(`${URL_BASE}/api/pagamento`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ valor, produto, nome, cpf, email: "cliente@email.com" })
+                    body: JSON.stringify({ 
+                        valor: Number(valor), 
+                        produto: produto, 
+                        nome: nome, 
+                        cpf: cpf, 
+                        email: "cliente@email.com" 
+                    })
                 });
+
                 const data = await res.json();
-                if (res.ok) {
+                
+                if (res.ok && data.point_of_interaction) {
                     modal.remove();
                     exibirResultadoPix(data);
                 } else {
-                    alert("Erro: " + data.error);
+                    console.error("Erro na API:", data);
+                    alert("Erro: " + (data.error || "Verifique os dados e tente novamente"));
                     btn.innerText = "GERAR PIX AGORA";
                     btn.disabled = false;
                 }
             } catch (err) {
-                alert("Erro ao conectar com o servidor.");
+                console.error("Erro no fetch:", err);
+                alert("Erro ao conectar com o servidor. Verifique sua internet ou tente novamente.");
+                btn.innerText = "GERAR PIX AGORA";
                 btn.disabled = false;
             }
         });
@@ -109,13 +118,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const pix = data.point_of_interaction.transaction_data;
         const div = document.createElement("div");
         div.innerHTML = `
-            <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:flex; justify-content:center; align-items:center; z-index:10001; padding:20px;">
-                <div style="background:#fff; padding:25px; border-radius:15px; text-align:center; max-width:350px; width:100%; color:#333;">
-                    <h2 style="margin-bottom:15px;">QR Code Gerado!</h2>
-                    <img src="data:image/png;base64,${pix.qr_code_base64}" style="width:100%; max-width:200px; margin:auto;">
-                    <p style="margin-top:15px; font-size:14px; color:#666;">Copie o código Pix Copia e Cola:</p>
+            <div id="pix-sucesso" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:flex; justify-content:center; align-items:center; z-index:10001; padding:20px;">
+                <div style="background:#fff; padding:25px; border-radius:15px; text-align:center; max-width:350px; width:100%; color:#333; font-family: sans-serif;">
+                    <h2 style="margin-bottom:15px;">Pix Gerado com Sucesso!</h2>
+                    <img src="data:image/png;base64,${pix.qr_code_base64}" style="width:100%; max-width:200px; margin:auto; display:block;">
+                    <p style="margin-top:15px; font-size:14px; color:#666;">Código Pix Copia e Cola:</p>
                     <textarea readonly style="width:100%; height:80px; margin-top:5px; padding:10px; border-radius:8px; border:1px solid #ddd; background:#f5f5f5; font-size:12px; resize:none;">${pix.qr_code}</textarea>
-                    <button style="margin-top:15px; padding:12px; width:100%; border:none; background:#a855f7; color:#fff; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="this.closest('div').parentElement.remove()">Concluído</button>
+                    <button style="margin-top:15px; padding:12px; width:100%; border:none; background:#a855f7; color:#fff; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="document.getElementById('pix-sucesso').remove()">Fechar</button>
                 </div>
             </div>
         `;
