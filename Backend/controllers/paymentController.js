@@ -7,7 +7,7 @@ export const criarPagamento = async (req, res) => {
     const { valor, produto, email, nome, sobrenome, cpf } = req.body;
 
     const response = await payment.create({
-      body: {
+      body: { 
         transaction_amount: Number(valor),
         description: produto,
         payment_method_id: "pix",
