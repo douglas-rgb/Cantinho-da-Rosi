@@ -20,58 +20,54 @@
 //       },
 //     });
 
-//     // Salvando no banco com o nome correto: idPagamentoMP
+//     // CRIAÇÃO: Usando idPagamentoMP
 //     await Pagamento.create({
 //       idPagamentoMP: String(response.id),
 //       valor: Number(valor),
 //       status: "pending",
 //       emailPagador: email,
-//       produto: produto,
+//       produto: produto
 //     });
 
 //     res.json(response);
 //   } catch (error) {
-//     console.error("Erro ao criar:", error.message);
 //     res.status(500).json({ error: error.message });
 //   }
 // };
 
 // export const receberWebhook = async (req, res) => {
 //   try {
-//     // 1. Pegamos o ID que vem na notificação (pode vir de jeitos diferentes)
+//     // Pega o ID de qualquer formato que o Mercado Pago enviar
 //     const paymentId = req.body.data?.id || req.body.id;
 
 //     if (paymentId) {
-//       // 2. Buscamos os detalhes REAIS no Mercado Pago
+//       console.log(`🔔 Notificação recebida para o ID: ${paymentId}`);
+
 //       const paymentInfo = await payment.get({ id: String(paymentId) });
+//       const p = paymentInfo.payer || {};
+//       const nomeCompleto = `${p.first_name || ""} ${p.last_name || ""}`.trim();
 
-//       const payer = paymentInfo.payer || {};
-//       const nomeCompleto = `${payer.first_name || ""} ${payer.last_name || ""}`.trim();
+//       // ATUALIZAÇÃO: Busca por idPagamentoMP e muda o status
+//       const atualizado = await Pagamento.findOneAndUpdate(
+//         { idPagamentoMP: String(paymentId) },
+//         { 
+//           status: paymentInfo.status,
+//           nomePagador: nomeCompleto || "Nome não disponível",
+//           updatedAt: new Date()
+//         },
+//         { new: true }
+//       );
 
-//       // 3. O FILTRO: Tem que ser idPagamentoMP para bater com o que criamos antes!
-//       const filter = { idPagamentoMP: String(paymentId) };
-      
-//       const update = {
-//         status: paymentInfo.status,
-//         nomePagador: nomeCompleto || "Nome não disponível",
-//         emailPagador: payer.email,
-//         valor: paymentInfo.transaction_amount,
-//         updatedAt: new Date(),
-//       };
-
-//       // 4. Atualiza o registro existente
-//       const resultado = await Pagamento.findOneAndUpdate(filter, update, { 
-//         new: true, 
-//         upsert: true 
-//       });
-
-//       console.log(`✅ Pagamento ${paymentId} atualizado para: ${resultado.status}`);
+//       if (atualizado) {
+//         console.log(`✅ Pagamento ${paymentId} atualizado para: ${paymentInfo.status}`);
+//       } else {
+//         console.log(`⚠️ Pagamento ${paymentId} não encontrado no banco para atualizar.`);
+//       }
 //     }
 
 //     res.status(200).send("OK");
 //   } catch (err) {
-//     console.error("Erro no Webhook:", err.message);
-//     // Respondemos 200 mesmo no erro para o MP não ficar tentando reenviar infinitamente
+//     console.error("❌ Erro no Webhook:", err.message);
 //     res.status(200).send("OK"); 
 //   }
 // };
@@ -81,16 +77,24 @@
 //     const pagamentos = await Pagamento.find().sort({ createdAt: -1 });
 //     res.json(pagamentos);
 //   } catch (err) {
-//     console.error("Erro ao buscar pagamentos:", err);
+//     console.error("❌ Erro ao buscar pagamentos:", err.message);
 //     res.status(500).json({ error: "Erro ao buscar pagamentos" });
 //   }
 // };
+
 import payment from "../config/mp.js";
 import Pagamento from "../models/Pagamento.js";
 
+// ==============================
+// CRIAR PAGAMENTO (PIX)
+// ==============================
 export const criarPagamento = async (req, res) => {
   try {
     const { valor, produto, email, nome, sobrenome, cpf } = req.body;
+
+    if (!valor || !produto || !email || !nome || !cpf) {
+      return res.status(400).json({ error: "Dados obrigatórios faltando" });
+    }
 
     const response = await payment.create({
       body: {
@@ -100,70 +104,107 @@ export const criarPagamento = async (req, res) => {
         payer: {
           email,
           first_name: nome,
-          last_name: sobrenome,
-          identification: { type: "CPF", number: cpf },
+          last_name: sobrenome || "",
+          identification: {
+            type: "CPF",
+            number: cpf,
+          },
         },
       },
     });
 
-    // CRIAÇÃO: Usando idPagamentoMP
     await Pagamento.create({
       idPagamentoMP: String(response.id),
       valor: Number(valor),
       status: "pending",
       emailPagador: email,
-      produto: produto
+      nomePagador: `${nome} ${sobrenome || ""}`.trim(),
+      cpfPagador: cpf,
+      bancoPagador: null, // será atualizado depois
     });
 
-    res.json(response);
+    return res.json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("❌ Erro ao criar pagamento:", error.message);
+    return res.status(500).json({ error: "Erro ao criar pagamento" });
   }
 };
 
+// ==============================
+// WEBHOOK (ATUALIZA PAGAMENTO)
+// ==============================
 export const receberWebhook = async (req, res) => {
   try {
-    // Pega o ID de qualquer formato que o Mercado Pago enviar
-    const paymentId = req.body.data?.id || req.body.id;
+    const paymentId = req.body?.data?.id || req.body?.id;
 
-    if (paymentId) {
-      console.log(`🔔 Notificação recebida para o ID: ${paymentId}`);
-
-      const paymentInfo = await payment.get({ id: String(paymentId) });
-      const p = paymentInfo.payer || {};
-      const nomeCompleto = `${p.first_name || ""} ${p.last_name || ""}`.trim();
-
-      // ATUALIZAÇÃO: Busca por idPagamentoMP e muda o status
-      const atualizado = await Pagamento.findOneAndUpdate(
-        { idPagamentoMP: String(paymentId) },
-        { 
-          status: paymentInfo.status,
-          nomePagador: nomeCompleto || "Nome não disponível",
-          updatedAt: new Date()
-        },
-        { new: true }
-      );
-
-      if (atualizado) {
-        console.log(`✅ Pagamento ${paymentId} atualizado para: ${paymentInfo.status}`);
-      } else {
-        console.log(`⚠️ Pagamento ${paymentId} não encontrado no banco para atualizar.`);
-      }
+    if (!paymentId) {
+      return res.status(200).send("OK");
     }
 
-    res.status(200).send("OK");
+    console.log(`🔔 Webhook recebido: ${paymentId}`);
+
+    const paymentInfo = await payment.get({ id: String(paymentId) });
+
+    // ==============================
+    // DADOS DO PAGADOR (SEGURO)
+    // ==============================
+    const payer = paymentInfo?.payer || {};
+
+    const nomeCompleto = [
+      payer.first_name || "",
+      payer.last_name || "",
+    ].join(" ").trim() || "Nome não disponível";
+
+    const cpf = payer?.identification?.number || "CPF não informado";
+
+    // ==============================
+    // BANCO (COM FALLBACKS)
+    // ==============================
+    const banco =
+      paymentInfo?.point_of_interaction?.transaction_data?.bank_info?.name ||
+      paymentInfo?.point_of_interaction?.transaction_data?.financial_institution ||
+      "Banco não identificado";
+
+    // ==============================
+    // ATUALIZA NO BANCO
+    // ==============================
+    const atualizado = await Pagamento.findOneAndUpdate(
+      { idPagamentoMP: String(paymentId) },
+      {
+        status: paymentInfo.status || "desconhecido",
+        nomePagador: nomeCompleto,
+        cpfPagador: cpf,
+        bancoPagador: banco,
+        updatedAt: new Date(),
+      },
+      { new: true }
+    );
+
+    if (!atualizado) {
+      console.log(`⚠️ Pagamento não encontrado: ${paymentId}`);
+    } else {
+      console.log(`✅ Atualizado com sucesso`);
+      console.log(`👤 Nome: ${nomeCompleto}`);
+      console.log(`🧾 CPF: ${cpf}`);
+      console.log(`🏦 Banco: ${banco}`);
+    }
+
+    return res.status(200).send("OK");
   } catch (err) {
-    console.error("❌ Erro no Webhook:", err.message);
-    res.status(200).send("OK"); 
+    console.error("❌ Erro no webhook:", err.message);
+    return res.status(200).send("OK");
   }
 };
 
+// ==============================
+// LISTAR PAGAMENTOS
+// ==============================
 export const listarPagamentos = async (req, res) => {
   try {
     const pagamentos = await Pagamento.find().sort({ createdAt: -1 });
-    res.json(pagamentos);
+    return res.json(pagamentos);
   } catch (err) {
-    console.error("❌ Erro ao buscar pagamentos:", err.message);
-    res.status(500).json({ error: "Erro ao buscar pagamentos" });
+    console.error("❌ Erro ao listar pagamentos:", err.message);
+    return res.status(500).json({ error: "Erro ao buscar pagamentos" });
   }
 };
