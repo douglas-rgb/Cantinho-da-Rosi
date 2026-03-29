@@ -96,6 +96,9 @@ export const criarPagamento = async (req, res) => {
       return res.status(400).json({ error: "Dados obrigatórios faltando" });
     }
 
+    // Limpa o CPF (apenas números) para evitar erro 400 no MP
+    const cpfLimpo = cpf.replace(/\D/g, "");
+
     const response = await payment.create({
       body: {
         transaction_amount: Number(valor),
@@ -107,25 +110,30 @@ export const criarPagamento = async (req, res) => {
           last_name: sobrenome || "",
           identification: {
             type: "CPF",
-            number: cpf,
+            number: cpfLimpo,
           },
         },
       },
     });
 
+    // No SDK V2, os dados retornam dentro de .body
+    const p = response.body || response;
+
     await Pagamento.create({
-      idPagamentoMP: String(response.id),
+      idPagamentoMP: String(p.id),
       valor: Number(valor),
-      status: "pending",
+      status: p.status || "pending",
       emailPagador: email,
       nomePagador: `${nome} ${sobrenome || ""}`.trim(),
-      cpfPagador: cpf,
-      bancoPagador: null, // será atualizado depois
+      cpfPagador: cpfLimpo,
+      bancoPagador: null,
     });
 
-    return res.json(response);
+    return res.json(p);
   } catch (error) {
     console.error("❌ Erro ao criar pagamento:", error.message);
+    // Log detalhado do erro da API do Mercado Pago se disponível
+    if (error.cause) console.error("Causa:", error.cause); 
     return res.status(500).json({ error: "Erro ao criar pagamento" });
   }
 };
@@ -135,43 +143,40 @@ export const criarPagamento = async (req, res) => {
 // ==============================
 export const receberWebhook = async (req, res) => {
   try {
-    const paymentId = req.body?.data?.id || req.body?.id;
+    // O MP envia o ID de formas diferentes dependendo do evento
+    const paymentId = req.body.data?.id || req.body.id;
+    const action = req.body.action || req.body.type;
 
-    if (!paymentId) {
+    // Só processa se for um evento de pagamento
+    if (!paymentId || (action && !action.includes("payment"))) {
       return res.status(200).send("OK");
     }
 
-    console.log(`🔔 Webhook recebido: ${paymentId}`);
+    console.log(`🔔 Webhook recebido para ID: ${paymentId}`);
 
-    const paymentInfo = await payment.get({ id: String(paymentId) });
+    // Busca os dados atualizados no Mercado Pago
+    const response = await payment.get({ id: String(paymentId) });
+    const data = response.body || response;
 
-    // ==============================
-    // DADOS DO PAGADOR (SEGURO)
-    // ==============================
-    const payer = paymentInfo?.payer || {};
+    // Mapeamento seguro dos dados do pagador
+    const payer = data.payer || {};
+    const nomeCompleto = [payer.first_name, payer.last_name]
+      .filter(Boolean)
+      .join(" ") || "Nome não disponível";
 
-    const nomeCompleto = [
-      payer.first_name || "",
-      payer.last_name || "",
-    ].join(" ").trim() || "Nome não disponível";
+    const cpf = payer.identification?.number || "CPF não informado";
 
-    const cpf = payer?.identification?.number || "CPF não informado";
-
-    // ==============================
-    // BANCO (COM FALLBACKS)
-    // ==============================
+    // Extração do banco (Pix)
     const banco =
-      paymentInfo?.point_of_interaction?.transaction_data?.bank_info?.name ||
-      paymentInfo?.point_of_interaction?.transaction_data?.financial_institution ||
+      data.point_of_interaction?.transaction_data?.bank_info?.name ||
+      data.point_of_interaction?.transaction_data?.financial_institution ||
       "Banco não identificado";
 
-    // ==============================
-    // ATUALIZA NO BANCO
-    // ==============================
+    // Atualiza no seu banco de dados
     const atualizado = await Pagamento.findOneAndUpdate(
       { idPagamentoMP: String(paymentId) },
       {
-        status: paymentInfo.status || "desconhecido",
+        status: data.status,
         nomePagador: nomeCompleto,
         cpfPagador: cpf,
         bancoPagador: banco,
@@ -180,18 +185,16 @@ export const receberWebhook = async (req, res) => {
       { new: true }
     );
 
-    if (!atualizado) {
-      console.log(`⚠️ Pagamento não encontrado: ${paymentId}`);
+    if (atualizado) {
+      console.log(`✅ Status [${data.status}] atualizado para o pagamento ${paymentId}`);
     } else {
-      console.log(`✅ Atualizado com sucesso`);
-      console.log(`👤 Nome: ${nomeCompleto}`);
-      console.log(`🧾 CPF: ${cpf}`);
-      console.log(`🏦 Banco: ${banco}`);
+      console.log(`⚠️ Pagamento ${paymentId} não encontrado no seu banco.`);
     }
 
     return res.status(200).send("OK");
   } catch (err) {
-    console.error("❌ Erro no webhook:", err.message);
+    console.error("❌ Erro no processamento do webhook:", err.message);
+    // Retornamos 200 para o MP não ficar reenviando o mesmo erro em loop
     return res.status(200).send("OK");
   }
 };
