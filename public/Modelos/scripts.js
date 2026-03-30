@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         botao.addEventListener("click", () => {
             const produto = botao.getAttribute("data-produto");
             const texto = encodeURIComponent(`Olá Rosi! Vi o modelo *${produto}* no seu site e gostaria de pedir um orçamento.`);
-            window.open(`https://wa.me{NUMERO_WHATSAPP}?text=${texto}`, "_blank");
+            window.open(`https://wa.me${NUMERO_WHATSAPP}?text=${texto}`, "_blank");
         });
     });
 
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const produto = document.getElementById("servico-contato").value;
             const mensagem = document.getElementById("mensagem-contato").value;
             const textoFinal = encodeURIComponent(`Olá Rosi, meu nome é ${nome}. Estou interessado(a) em: *${produto}*.\n\n${mensagem}`);
-            window.open(`https://wa.me{NUMERO_WHATSAPP}?text=${textoFinal}`, "_blank");
+            window.open(`https://wa.me${NUMERO_WHATSAPP}?text=${textoFinal}`, "_blank");
         });
     }
 
