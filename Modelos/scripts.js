@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const texto = `Olá Rosi! Vi o modelo *${produto}* no seu site e gostaria de pedir um orçamento.`;
             
             // Correção da URL: adicionada a "/" e encodeURIComponent
-            const url = `https://wa.me{NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
+            const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
             window.open(url, "_blank");
         });
     });
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const mensagem = document.getElementById("mensagem-contato").value;
             
             const textoFinal = `Olá Rosi, meu nome é ${nome}. Estou interessado(a) em: *${produto}*.\n\n${mensagem}`;
-            const url = `https://wa.me{NUMERO_WHATSAPP}?text=${encodeURIComponent(textoFinal)}`;
+            const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(textoFinal)}`;
             window.open(url, "_blank");
         });
     }
