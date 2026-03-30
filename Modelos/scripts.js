@@ -142,6 +142,9 @@ document.addEventListener("DOMContentLoaded", () => {
         botao.addEventListener("click", () => {
             const produto = botao.getAttribute("data-produto") || "modelo de crochê";
             const texto = `Olá Rosi! Vi o modelo *${produto}* no seu site e gostaria de pedir um orçamento.%0ARetornaremos em breve`;
+
+            // 2. O encodeURIComponent transforma a quebra de linha real em %0A
+            const textoCodificado = encodeURIComponent(texto);
             
             // Correção da URL: adicionada a "/" e encodeURIComponent
             const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
