@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.disabled = true;
 
             try {
-                // AQUI ESTÁ A CORREÇÃO: URL COMPLETA COM /api/pagamento
+                // /api/pagamento
                 const res = await fetch(`${URL_BASE}/api/pagamento`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
