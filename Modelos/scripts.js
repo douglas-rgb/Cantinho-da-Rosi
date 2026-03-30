@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".btn-encomendar").forEach((botao) => {
         botao.addEventListener("click", () => {
             const produto = botao.getAttribute("data-produto") || "modelo de crochê";
-            const texto = `Olá Rosi! Vi o modelo *${produto}* no seu site e gostaria de pedir um orçamento.`;
+            const texto = `Olá Rosi! Vi o modelo *${produto}* no seu site e gostaria de pedir um orçamento. /nRetornaremos em breve`;
             
             // Correção da URL: adicionada a "/" e encodeURIComponent
             const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
