@@ -15,7 +15,7 @@
   background-repeat: no-repeat;
 
   will-change: background-image;
-}
+} 
 
 /* Overlay */
 
@@ -66,10 +66,10 @@
 .button:hover {
   background: #5b21b6;
   transform: scale(1.05);
-}
+} 
 
 /* ===== ANIMAÇÃO BACKGROUND ===== */
-
+ 
 @keyframes sectionimg {
 
   0% {
@@ -88,11 +88,11 @@
     background-image: url("../../assets/Slider4.webp");
   }
 
-}
+} 
 
 /* ===== TABLET ===== */
 
-@media (max-width: 992px) {
+ @media (max-width: 992px) {
 
   .sectionTop {
     min-height: 85vh;
@@ -106,7 +106,7 @@
     font-size: 1.1rem;
   }
 
-}
+} 
 
 /* ===== MOBILE ===== */
 
@@ -129,6 +129,8 @@
     font-size: 0.9rem;
   }
 
-}
+}  
+
+
 
 
