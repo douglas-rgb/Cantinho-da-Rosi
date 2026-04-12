@@ -71,6 +71,48 @@ export default function Depoimentos() {
               </div>
             </div>
           ))}
+          {depoimentos.map((dep, index) => (
+            <div key={index} className={styles.slide}>
+              <div className={styles.card}>
+                
+                {/* FOTO + NOME */}
+                <div className={styles.header}>
+                  <img src={dep.foto} alt={dep.nome} className={styles.foto} />
+                  <h5 className={styles.nome}>{dep.nome}</h5>
+                </div>
+
+                {/* TEXTO */}
+                <p className={styles.texto}>“{dep.texto}”</p>
+
+                {/* ESTRELAS */}
+                <p className={styles.stars}>
+                  {renderStars(dep.avaliacao)}
+                </p>
+
+              </div>
+            </div>
+          ))}
+          {depoimentos.map((dep, index) => (
+            <div key={index} className={styles.slide}>
+              <div className={styles.card}>
+                
+                {/* FOTO + NOME */}
+                <div className={styles.header}>
+                  <img src={dep.foto} alt={dep.nome} className={styles.foto} />
+                  <h5 className={styles.nome}>{dep.nome}</h5>
+                </div>
+
+                {/* TEXTO */}
+                <p className={styles.texto}>“{dep.texto}”</p>
+
+                {/* ESTRELAS */}
+                <p className={styles.stars}>
+                  {renderStars(dep.avaliacao)}
+                </p>
+
+              </div>
+            </div>
+          ))}
         </Slider>
       </div>
     </section>
