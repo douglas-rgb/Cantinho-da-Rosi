@@ -32,6 +32,7 @@ function Navbar() {
                 <li><a href="#home" className={styles.activeLink}>Home</a></li>
                 <li><a href="#about">Sobre</a></li>
                 <li><a href="#products">Produtos</a></li>
+                <li><a href="#depoimentos">Depoimentos</a></li>
                 <li><a href="#contato">Contato</a></li>
                 <li><a href="#localizacao">
                     <IoLocationOutline />

@@ -134,6 +134,7 @@ body {
 /* ================= BOTÃO WHATSAPP (CARD) ================= */
 .btn-encomendar {
   margin-top: 10px;
+  margin-bottom: 20px;
   padding: 12px 20px;
   width: 100%;
   border: none;
@@ -221,10 +222,16 @@ body {
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
   z-index: 1000;
   transition: 0.3s;
 }
+
+.whatsapp-float .float-text {
+  color: #fff;
+  font-size: 0.6rem;
+}
+
 
 .whatsapp-float:hover {
   transform: scale(1.1) rotate(10deg);

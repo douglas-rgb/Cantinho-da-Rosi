@@ -9,6 +9,7 @@ import Home from "./Pages/Home/Home"
 import Products from "./Pages/Products/Products" 
 import WhatsappButton from "./Components/WhatsappButton/WhatsappButton" 
 import Location from "./Components/Location/Location" 
+import Depoimentos from "./Pages/Depoimentos/Depoimentos"
 
 function App() { 
   return (<> 
@@ -17,6 +18,7 @@ function App() {
   <Home /> 
   <About /> 
   <Products /> 
+  <Depoimentos /> 
   <Contato /> 
   <Location /> 
   <OrderSteps /> 
